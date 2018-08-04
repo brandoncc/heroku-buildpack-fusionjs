@@ -52,19 +52,19 @@ If your app:
       - -> A Procfile will be created for you with `web: YOUR START SCRIPT`
     - and contains a Procfile
       - which has a `web` process
-        - -> The buildpack will tell you to make sure your start script binds to $PORT, but will not make any changes
+        - -> The buildpack will tell you to make sure your process binds to $PORT, but will not make any changes
       - which does not have a `web` process
         - -> A `web` process for "YOUR START SCRIPT" will be appended to your Procfile
 
   - Contains a start script that does not contain the text "fusion start"
-    - -> The buildpack will tell you that we don't know how to handle your start script and make sure it binds to $PORT properly
+    - -> The buildpack will tell you that we don't know how to handle your start script and that you should make sure it binds to $PORT properly
 
   - Does not contain a start script
-    - -> The buildpack will tell you that we don't know how to handle your start script and make sure it binds to $PORT properly
+    - -> The buildpack will tell you that we don't know how to handle your start script and that you should make sure it binds to $PORT properly
 
 
-NOTE: If your starts script does not include `--port`, it will be added in your
-Procfile so that your process binds properly
+NOTE: If your start script does not include `--port`, it will be added to the
+new `web` process in your Procfile so that your process binds properly.
 
 
 ## More Information
