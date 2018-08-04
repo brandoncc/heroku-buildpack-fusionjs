@@ -27,7 +27,6 @@ source "$STDLIB_FILE"
 source $BP_DIR/lib/output.sh
 source $BP_DIR/lib/json.sh
 source $BP_DIR/lib/failure.sh
-source $BP_DIR/lib/environment.sh
 source $BP_DIR/lib/cache.sh
 source $BP_DIR/lib/dependencies.sh
 
@@ -58,22 +57,7 @@ fail_missing_fusion_cli   "$BUILD_DIR"
 
 ### Compile
 
-create_env() {
-  write_profile "$BP_DIR" "$BUILD_DIR"
-  write_export "$BP_DIR" "$BUILD_DIR"
-  export_env_dir "$ENV_DIR"
-  create_default_env
-}
-
-header "Creating runtime environment"
-
 cd $BUILD_DIR
-create_env # can't pipe the whole thing because piping causes subshells, preventing exports
-list_node_config | output "$LOG_FILE"
-
-### Configure package manager cache directories
-[ ! "$YARN_CACHE_FOLDER" ] && export YARN_CACHE_FOLDER=$(mktemp -d -t yarncache.XXXXX)
-[ ! "$NPM_CONFIG_CACHE" ] && export NPM_CONFIG_CACHE=$(mktemp -d -t npmcache.XXXXX)
 
 build_fusion_app() {
   if [[ ! -d ".fusion/dist" ]]; then
