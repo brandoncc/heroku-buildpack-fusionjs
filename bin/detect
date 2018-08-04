@@ -11,5 +11,5 @@ if [ -f $1/package.json ]; then
   exit 1
 fi
 
->&2 echo 'Node.js: package.json not found in application root'
+>&2 echo 'Fusion.js: package.json not found in application root'
 exit 1

@@ -1,4 +1,4 @@
-warnings=$(mktemp -t heroku-buildpack-nodejs-XXXX)
+warnings=$(mktemp -t heroku-buildpack-fusionjs-XXXX)
 
 detect_package_manager() {
   case $YARN in
