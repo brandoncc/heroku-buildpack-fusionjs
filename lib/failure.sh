@@ -36,8 +36,7 @@ fail_invalid_package_json() {
 }
 
 fail_missing_fusion_cli() {
-  if ! grep -Fq "fusion-cli" ${1:-}/package.json
-  then
+  if ! grep -Fq "fusion-cli" ${1:-}/package.json; then
     error "fusion-cli is not listed in your package.json file"
     mcount "failures.missing-package.fusion-cli"
   fi
