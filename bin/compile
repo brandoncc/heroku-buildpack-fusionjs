@@ -126,14 +126,5 @@ cache_build() {
 header "Caching build"
 cache_build | output "$LOG_FILE"
 
-summarize_build() {
-  if $NODE_VERBOSE; then
-    list_dependencies "$BUILD_DIR"
-  fi
-
-  mmeasure 'modules.size' "$(measure_size)"
-}
-
 header "Fusion.js build succeeded!"
 mcount "compile.fusionjs"
-summarize_build | output "$LOG_FILE"
