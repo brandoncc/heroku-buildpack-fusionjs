@@ -3,7 +3,7 @@
 
 if [ -f $1/package.json ]; then
   if grep -Fq "fusion-cli" $1/package.json; then
-    echo 'Node.js'
+    echo 'Fusion.js'
     exit 0
   fi
 
