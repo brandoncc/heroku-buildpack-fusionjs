@@ -85,11 +85,41 @@ update_tmp_paths_to_app_in_fusion_server_bundle() {
   sed -i "s;$(pwd);/app;g" .fusion/dist/production/server/server-main.js
 }
 
+create_default_procfile() {
+  local startScript=$(read_json "$BUILD_DIR/package.json" ".scripts.start")
+
+  if ! echo "$startScript" | grep -qe "fusion[[:space:]]\{1,\}start"; then
+    echo "The start script in your package.json file does not include \"fusion start\"."
+    echo "We are not sure how to handle your start script and will not continue."
+    echo "You should make sure your start script or Procfile web process binds to \$PORT properly."
+    return 0
+  fi
+
+  if ! [[ -f "Procfile" ]]; then
+    touch Procfile
+  fi
+
+  if grep -q "^web:" Procfile; then
+    echo "Procfile already contains a web process. We will not create one."
+    echo "You should make sure your process binds to \$PORT properly."
+    return 0
+  fi
+
+  if echo "$startScript" | grep -qe "--port"; then
+    echo "web: $startScript" >> Procfile
+  else
+    echo "web: $startScript --port=\${PORT:-3000}" >> Procfile
+  fi
+}
+
 header "Building fusion.js app"
 build_fusion_app | output "$LOG_FILE"
 
 header "Updating /tmp paths to /app in fusion.js server bundle"
 update_tmp_paths_to_app_in_fusion_server_bundle | output "$LOG_FILE"
+
+header "Ensuring proper web process exists in Procfile"
+create_default_procfile
 
 cache_build() {
   local cache_directories=$(get_cache_directories)
